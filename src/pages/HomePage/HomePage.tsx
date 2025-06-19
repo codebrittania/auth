@@ -1,14 +1,7 @@
-import { useState } from "react";
-import { TransactionsTable } from "./components/TranstactionsTable/TranstactionsTable";
 import { DashboardSection } from "./components/DashboardSection/DashboardSection";
-import { MobileMenu } from "../../layout/AdminLayout/MobileMenu/MobileMenu";
-import { NotificationDropdown } from "../../layout/AdminLayout/NotificationDropdown/NotificationDropdown";
+import { TransactionsTable } from "./components/TranstactionsTable/TranstactionsTable";
 
 export const HomePage = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
-  console.log("Notifications open state:", notificationsOpen);
-
   return (
     <div className="bg-gray-50 min-h-screen">
       <div id="toast-container" className="toast-container p-4 sm:p-6"></div>
@@ -291,4 +284,3 @@ export const HomePage = () => {
     </div>
   );
 };
-

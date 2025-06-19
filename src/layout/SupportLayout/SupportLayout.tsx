@@ -1,49 +1,29 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import logo from "../../../public/logo.svg";
 import "../../index.css";
 import { MobileMenu } from "./MobileMenu/MobileMenu";
 import { NotificationDropdown } from "./NotificationDropdown/NotificationDropdown";
-import logo from "../../../public/logo.svg"
 
-const Layout = () => {
+export const SupportLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  const activeClass = "font-semibold text-black";
+  const activeClass = "font-medium text-black";
   const inactiveClass = "font-medium text-gray-400";
 
   return (
     <>
-      <div className="max-w-7xl mx-auto bg-white shadow-sm">
-        <header className="border-b border-gray-200 max-w-7xl ">
+      <div className="max-w-[1500px] mx-auto bg-white shadow-sm">
+        <header className="border-b border-gray-200 max-w-[1500px] ">
           <div className="flex items-center justify-between px-4 sm:px-6 py-4">
             <div className="flex items-center">
-              <div className="font-bold text-xl">
-                <img src={logo} alt="CryptUra Logo" />
-              </div>
-
-              <button
-                id="mobile-menu-button"
-                className="ml-4 sm:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-
-              <nav className="hidden sm:flex space-x-6 ml-12">
+              <NavLink to="/" end>
+                <div className="font-bold text-xl">
+                  <img src={logo} alt="CryptUra Logo" />
+                </div>
+              </NavLink>
+              <nav className="hidden sm:flex space-x-6 ml-8 md:ml-12">
                 <NavLink
                   to="/"
                   end
@@ -54,33 +34,17 @@ const Layout = () => {
                   Главная
                 </NavLink>
                 <NavLink
-                  to="/balance"
+                  to="/actives"
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
                 >
                   Баланс
                 </NavLink>
-                <NavLink
-                  to="/deals"
-                  className={({ isActive }) =>
-                    isActive ? activeClass : inactiveClass
-                  }
-                >
-                  Сделки
-                </NavLink>
-                <NavLink
-                  to="/auth"
-                  className={({ isActive }) =>
-                    isActive ? activeClass : inactiveClass
-                  }
-                >
-                  Авторизация
-                </NavLink>
               </nav>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4  ">
               <div className="hidden sm:flex items-center mr-4 px-3 py-1 bg-gray-100 rounded-lg">
                 <div className="text-sm">
                   <span className="text-gray-600">1 USDT =</span>
@@ -127,12 +91,31 @@ const Layout = () => {
                     3
                   </span>
                 </button>
+                <button
+                  id="mobile-menu-button"
+                  className="ml-6 mr-2 md:hidden"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
 
                 {notificationsOpen && <NotificationDropdown />}
               </div>
             </div>
           </div>
-
           {mobileMenuOpen && <MobileMenu />}
         </header>
 
@@ -143,5 +126,3 @@ const Layout = () => {
     </>
   );
 };
-
-export default Layout;

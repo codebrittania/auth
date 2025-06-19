@@ -33,7 +33,7 @@ export const TransactionsTable = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {[789884, 789885, 789886, 789887, 789888].map((id) => (
-            <tr key={id} className="hover:bg-gray-50">
+            <tr key={id} className=" cursor-pointer hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                 {id}
               </td>
