@@ -63,7 +63,7 @@ export function ProfilePage() {
         {/* Header */}
         <header className="border-b border-gray-200 px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
-            <NavLink to='/'>
+            <NavLink to="/">
               <button className="cursor-pointer text-gray-600 hover:text-gray-900">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -270,7 +270,10 @@ export function ProfilePage() {
               </button>
 
               {/* Assets */}
-              <button className="flex items-center p-4 border cursor-pointer border-gray-200 rounded-lg hover:bg-gray-50 text-left">
+              <NavLink
+                to="/actives"
+                className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left cursor-pointer"
+              >
                 <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +291,7 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">Активы</span>
-              </button>
+              </NavLink>
 
               {/* Merchant Support */}
               <button className="flex items-center cursor-pointer p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
