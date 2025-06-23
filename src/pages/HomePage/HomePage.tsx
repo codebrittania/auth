@@ -1,12 +1,37 @@
+import { useEffect, useState } from "react";
+import { cryptUraApi } from "../../api/CryptUraApi";
 import { DashboardSection } from "./components/DashboardSection/DashboardSection";
 import { TransactionsTable } from "./components/TranstactionsTable/TranstactionsTable";
 
 export const HomePage = () => {
+  const [apiKey, setApiKey] = useState<string | null>(null);
+  //@ts-ignore
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchKey = async () => {
+      try {
+        const response = await cryptUraApi.getApiKey();
+        setApiKey(response.api_key);
+        console.log(response);
+      } catch (err: any) {
+        if (err.response?.status === 403) {
+          setError("Доступ запрещён");
+        } else {
+          setError("Ошибка при получении API ключа");
+        }
+      }
+    };
+
+    fetchKey();
+  }, []);
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div id="toast-container" className="toast-container p-4 sm:p-6"></div>
 
       <div className="max-w-7xl mx-auto bg-white shadow-sm">
+        {apiKey ? apiKey : "Нет ключа"}
         <DashboardSection />
 
         <main className="px-4 sm:px-6 py-6">
@@ -161,7 +186,7 @@ export const HomePage = () => {
 
             <div className="block sm:hidden">
               <div className="space-y-4">
-                {[789884, 789885, 789886].map((id) => (
+                {/* {[789884, 789885, 789886].map((id) => (
                   <div
                     key={id}
                     className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50"
@@ -181,10 +206,47 @@ export const HomePage = () => {
                     </div>
                     <div className="flex items-center mb-2">
                       <div className="flex items-center mr-4">
-                        <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
-                          <span className="text-xs font-medium text-blue-600">
-                            С
-                          </span>
+                        <div className="w-6 h-6 rounded-full  flex items-center justify-center mr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="37"
+                            height="44"
+                            viewBox="0 0 42 49"
+                            fill="none"
+                          >
+                            <path
+                              d="M12.1929 24.4954L5.86836 28.1832L0 38.4605L23.9386 24.4954H12.1929Z"
+                              fill="#874691"
+                            />
+                            <path
+                              d="M30.263 13.9651L23.9384 17.653L18.0701 27.9302L41.9997 13.9651H30.263Z"
+                              fill="#DA1844"
+                            />
+                            <path
+                              d="M23.9384 10.2773L18.0701 0V21.0697V27.9303V49L23.9384 38.7227V10.2773Z"
+                              fill="#F9B229"
+                            />
+                            <path
+                              d="M18.0701 0L23.9384 10.2773L30.263 13.9651H41.9997L18.0701 0Z"
+                              fill="#F07F1A"
+                            />
+                            <path
+                              d="M18.0701 21.0696V48.9999L23.9384 38.7226V31.3378L18.0701 21.0696Z"
+                              fill="#72B22C"
+                            />
+                            <path
+                              d="M30.263 35.0347L23.9384 38.7225L18.0701 48.9998L41.9997 35.0347H30.263Z"
+                              fill="#00743E"
+                            />
+                            <path
+                              d="M0 10.5303V38.4605L5.86836 28.1833V20.8075L0 10.5303Z"
+                              fill="#5F5A94"
+                            />
+                            <path
+                              d="M18.0702 21.0697V21.0787L0 10.5303L5.86836 20.8075L30.2632 35.0348H41.9999L18.0702 21.0697Z"
+                              fill="#0D90CD"
+                            />
+                          </svg>
                         </div>
                         <span className="text-sm">СБП</span>
                       </div>
@@ -215,7 +277,99 @@ export const HomePage = () => {
                       </svg>
                     </div>
                   </div>
-                ))}
+                ))} */}
+                {/* {[789884, 789885, 789886].map((id) => (
+                  <div
+                    key={id}
+                    className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50"
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          ID: {id}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          2025-05-21 19:12:28
+                        </div>
+                      </div>
+                      <span className="px-2 py-1 bg-green-100 text-green-600 rounded text-xs">
+                        Включено
+                      </span>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <div className="flex items-center mr-4">
+                        <div className="w-6 h-6 rounded-full  flex items-center justify-center mr-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="37"
+                            height="44"
+                            viewBox="0 0 42 49"
+                            fill="none"
+                          >
+                            <path
+                              d="M12.1929 24.4954L5.86836 28.1832L0 38.4605L23.9386 24.4954H12.1929Z"
+                              fill="#874691"
+                            />
+                            <path
+                              d="M30.263 13.9651L23.9384 17.653L18.0701 27.9302L41.9997 13.9651H30.263Z"
+                              fill="#DA1844"
+                            />
+                            <path
+                              d="M23.9384 10.2773L18.0701 0V21.0697V27.9303V49L23.9384 38.7227V10.2773Z"
+                              fill="#F9B229"
+                            />
+                            <path
+                              d="M18.0701 0L23.9384 10.2773L30.263 13.9651H41.9997L18.0701 0Z"
+                              fill="#F07F1A"
+                            />
+                            <path
+                              d="M18.0701 21.0696V48.9999L23.9384 38.7226V31.3378L18.0701 21.0696Z"
+                              fill="#72B22C"
+                            />
+                            <path
+                              d="M30.263 35.0347L23.9384 38.7225L18.0701 48.9998L41.9997 35.0347H30.263Z"
+                              fill="#00743E"
+                            />
+                            <path
+                              d="M0 10.5303V38.4605L5.86836 28.1833V20.8075L0 10.5303Z"
+                              fill="#5F5A94"
+                            />
+                            <path
+                              d="M18.0702 21.0697V21.0787L0 10.5303L5.86836 20.8075L30.2632 35.0348H41.9999L18.0702 21.0697Z"
+                              fill="#0D90CD"
+                            />
+                          </svg>
+                        </div>
+                        <span className="text-sm">СБП</span>
+                      </div>
+                      <span className="text-sm text-gray-600">SBP SBER</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-sm">+7 (999) 999 99-99</div>
+                      <div className="text-sm">Мухамедович А.</div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <div className="text-sm text-red-500">
+                          - 25. 2025 USDT
+                        </div>
+                        <div className="text-sm text-green-500">+ 2 400 ₽</div>
+                      </div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                ))} */}
               </div>
             </div>
 

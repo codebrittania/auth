@@ -6,6 +6,7 @@ export function loader() {
 }
 
 export function ActivesPage() {
+  //@ts-ignore
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
@@ -23,9 +24,9 @@ export function ActivesPage() {
   const SERVICE_FEE_PERCENT = 0.5; // %
   const MAX_BALANCE = 19407; // USDT
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  // const toggleMobileMenu = () => {
+  //   setMobileMenuOpen(!mobileMenuOpen);
+  // };
 
   const openWithdrawalModal = () => {
     setWithdrawalModalOpen(true);
@@ -121,14 +122,14 @@ export function ActivesPage() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  const { serviceFee, totalReceive } = calculateTotal();
+  const { totalReceive } = calculateTotal();
 
   return (
     <div className="max-w-7xl mx-auto bg-white shadow-sm min-h-screen">
       {/* Header */}
 
       {/* Main content */}
-      <div className="bg-gray-50 p-6 min-h-[calc(100vh-80px)]">
+      <div className="bg-white p-6 min-h-[calc(100vh-80px)]">
         {/* Back navigation */}
         <NavLink
           to="/profile"
@@ -152,7 +153,7 @@ export function ActivesPage() {
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Активы</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
           {/* Main asset card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-white rounded-xl border-1 border-gray-200  py-6 px-4 ">
             <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mb-4">
               <svg
                 className="w-6 h-6 text-white"
@@ -181,14 +182,11 @@ export function ActivesPage() {
             </div>
 
             <div className="flex space-x-3">
-              <button
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors"
-                onClick={() => alert("Пополнить кошелек")}
-              >
+              <button className="flex-1 bg-green-500 cursor-not-allowed hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors">
                 Пополнить
               </button>
               <button
-                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium border border-gray-200 transition-colors"
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium border border-gray-200 transition-colors cursor-pointer"
                 onClick={openWithdrawalModal}
               >
                 Вывести
@@ -197,7 +195,7 @@ export function ActivesPage() {
           </div>
 
           {/* Frozen asset card */}
-          <div className="bg-white rounded-xl p-6 shadow-sm opacity-80">
+          <div className="bg-white rounded-xl p-6 border-1 border-gray-200  py-6 px-4 ">
             <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center mb-4">
               <svg
                 className="w-6 h-6 text-white"

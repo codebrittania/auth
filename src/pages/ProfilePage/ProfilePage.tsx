@@ -58,8 +58,8 @@ export function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto bg-white shadow-sm">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto bg-white">
         {/* Header */}
         <header className="border-b border-gray-200 px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
@@ -294,7 +294,7 @@ export function ProfilePage() {
               </NavLink>
 
               {/* Merchant Support */}
-              <button className="flex items-center cursor-pointer p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
+              {/* <button className="flex items-center cursor-pointer p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
                 <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -312,10 +312,10 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">Мерчант саппорт</span>
-              </button>
+              </button> */}
 
               {/* Balance History */}
-              <button className="flex cursor-pointer items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
+              {/* <button className="flex cursor-pointer items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left">
                 <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -333,7 +333,7 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">История баланса</span>
-              </button>
+              </button> */}
             </div>
           </div>
 

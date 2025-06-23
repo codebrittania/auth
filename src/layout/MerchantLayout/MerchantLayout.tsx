@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import logo from "../../../public/logo.svg";
 import "../../index.css";
 import { MobileMenu } from "./MobileMenu/MobileMenu";
 import { NotificationDropdown } from "./NotificationDropdown/NotificationDropdown";
@@ -20,7 +19,7 @@ export const MerchantLayout = () => {
             <div className="flex items-center">
               <NavLink to="/" end>
                 <div className="font-bold text-xl">
-                  <img src={logo} alt="CryptUra Logo" />
+                  <img src='/logo.svg' alt="CryptUra Logo" />
                 </div>
               </NavLink>
               <nav className="hidden sm:flex space-x-6 ml-8 md:ml-12">

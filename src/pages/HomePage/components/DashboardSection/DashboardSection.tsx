@@ -1,9 +1,32 @@
+import { useEffect, useState } from "react";
+import { cryptUraApi } from "../../../../api/CryptUraApi";
+
 export const DashboardSection = () => {
+  const [balance, setBalance] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBalance = async () => {
+      try {
+        const data = await cryptUraApi.getBalance();
+        setBalance(data);
+      } catch (err: any) {
+        setError("Ошибка при получении баланса");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBalance();
+  }, []);
   return (
     <div className="mx-4 sm:mx-6 mt-6 mb-6">
       <div className="bg-gradient-to-br from-green-900 via-green-800 to-black rounded-xl p-6 text-white ">
         <h2 className="text-xl font-bold mb-4">Дашборд</h2>
-
+        {balance}
+        {error}
         <div className="flex space-x-1 mb-6">
           <button className="px-4 py-2 bg-white/20  rounded-lg text-sm font-medium">
             Deposit USDT

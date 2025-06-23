@@ -19,7 +19,7 @@ const RegisterPage: React.FC = () => {
     setInviteCode,
   } = useAuthStore();
 
-  const { mutate: registerMutation, isPending, isError, error } = useRegister();
+  const { mutate: registerMutation, isError, error } = useRegister();
 
   const handleSubmit = (e: React.FormEvent) => {
     if (password !== confirmPassword) {

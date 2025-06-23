@@ -25,22 +25,39 @@ export const SupportLayout = () => {
               </NavLink>
               <nav className="hidden sm:flex space-x-6 ml-8 md:ml-12">
                 <NavLink
-                  to="/"
+                  to=""
                   end
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
                 >
-                  Главная
+                  Поддержка
                 </NavLink>
                 <NavLink
-                  to="/actives"
+                  to="gateways"
                   className={({ isActive }) =>
                     isActive ? activeClass : inactiveClass
                   }
                 >
-                  Баланс
+                  Транзакции
                 </NavLink>
+                <NavLink
+                  to="merchants"
+                  className={({ isActive }) =>
+                    isActive ? activeClass : inactiveClass
+                  }
+                >
+                  Мерчанты
+                </NavLink>
+                <NavLink
+                  to="admin"
+                  className={({ isActive }) =>
+                    isActive ? activeClass : inactiveClass
+                  }
+                >
+                  Отчеты
+                </NavLink>
+                
               </nav>
             </div>
 
@@ -60,7 +77,7 @@ export const SupportLayout = () => {
                 />
                 <div className="hidden md:block">
                   <div className="flex items-center">
-                    <span className="font-medium text-sm">MaKO Merchant</span>
+                    <span className="font-medium text-sm">Support Account</span>
                   </div>
                   <div className="text-xs text-gray-500">Мой кабинет →</div>
                 </div>

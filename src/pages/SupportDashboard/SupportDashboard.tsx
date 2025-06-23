@@ -30,17 +30,6 @@ const mockTransactions: Transaction[] = [
     amount: { usdt: -25.2025, rub: 2400 },
   },
   {
-    id: "789824",
-    created: "2025-05-21 19:12:28",
-    type: "СБП",
-    status: "pending",
-    gateway: "SBP SBER",
-    merchant: "MaKO Merchant",
-    requisite: "+7 (999) 999 99-99",
-    name: "Хухамедович А.",
-    amount: { usdt: -25.2025, rub: 2400 },
-  },
-  {
     id: "789885",
     created: "2025-05-21 18:45:12",
     type: "Карта",
@@ -63,7 +52,7 @@ const mockTransactions: Transaction[] = [
     amount: { usdt: -100.0, rub: 9500 },
   },
   {
-    id: "789886",
+    id: "789887",
     created: "2025-05-21 17:30:45",
     type: "СБП",
     status: "processing",
