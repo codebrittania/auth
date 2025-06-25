@@ -1,15 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "../../index.css";
+import { useAuthStore } from "../../stores/AuthStore";
 import { MobileMenu } from "./MobileMenu/MobileMenu";
 import { NotificationDropdown } from "./NotificationDropdown/NotificationDropdown";
+import { cryptUraApi } from "../../api/CryptUraApi";
 
 export const MerchantLayout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [rate, setRate] = useState<any>({});
 
   const activeClass = "font-medium text-black";
   const inactiveClass = "font-medium text-gray-400";
+
+  const { username } = useAuthStore();
+
+  useEffect(() => {
+    const fetchRate = async () => {
+      try {
+        const response = await cryptUraApi.rateUsdtRub();
+        setRate(response); // предполагаем, что в response есть поле `rate`
+      } catch (err: any) {
+        console.error("Rate fetch error:", err);
+      }
+    };
+
+    fetchRate();
+  }, []);
 
   return (
     <>
@@ -19,7 +37,7 @@ export const MerchantLayout = () => {
             <div className="flex items-center">
               <NavLink to="/" end>
                 <div className="font-bold text-xl">
-                  <img src='/logo.svg' alt="CryptUra Logo" />
+                  <img src="/logo.svg" alt="CryptUra Logo" />
                 </div>
               </NavLink>
               <nav className="hidden sm:flex space-x-6 ml-8 md:ml-12">
@@ -47,7 +65,7 @@ export const MerchantLayout = () => {
               <div className="hidden sm:flex items-center mr-4 px-3 py-1 bg-gray-100 rounded-lg">
                 <div className="text-sm">
                   <span className="text-gray-600">1 USDT =</span>
-                  <span className="font-medium text-gray-900 ml-1">78.7 ₽</span>
+                  <span className="font-medium text-gray-900 ml-1">{rate.ask} ₽</span>
                 </div>
               </div>
 
@@ -60,7 +78,10 @@ export const MerchantLayout = () => {
                   />
                   <div className="hidden md:block">
                     <div className="flex items-center">
-                      <span className="font-medium text-sm">MaKO Merchant</span>
+                      <span className="font-medium  text-sm">
+                        {username}{" "}
+                        <span className="text-gray-500 ">Merchant</span>
+                      </span>
                     </div>
                     <div className="text-xs text-gray-500">Мой кабинет →</div>
                   </div>
@@ -87,9 +108,9 @@ export const MerchantLayout = () => {
                       d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                     />
                   </svg>
-                  <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                  {/* <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
                     3
-                  </span>
+                  </span> */}
                 </button>
                 <button
                   id="mobile-menu-button"
@@ -116,7 +137,7 @@ export const MerchantLayout = () => {
               </div>
             </div>
           </div>
-          {mobileMenuOpen && <MobileMenu />}
+          {mobileMenuOpen && <MobileMenu rate={rate.ask} />}
         </header>
 
         <main>

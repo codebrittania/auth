@@ -9,7 +9,7 @@ export const NotificationDropdown = () => {
         <div className="flex space-x-2">
           <button
             id="notification-settings-btn"
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@ export const NotificationDropdown = () => {
           </button>
           <button
             id="mark-all-read"
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ export const NotificationDropdown = () => {
           </button>
         </div>
       </div>
-      <div className="max-h-72 overflow-y-auto">
+      {/* <div className="max-h-72 overflow-y-auto">
         <a
           href="#"
           className="block p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
@@ -105,12 +105,13 @@ export const NotificationDropdown = () => {
             </div>
           </div>
         </a>
-      </div>
-      <div className="p-2 text-center border-t border-gray-100">
+      </div> */}
+      <h3 className="py-22 text-center text-gray-500">Пока ничего нет</h3>
+      {/* <div className="p-2 text-center border-t border-gray-100">
         <a href="#" className="text-xs text-blue-600 hover:text-blue-800">
           Показать все уведомления
         </a>
-      </div>
+      </div> */}
     </div>
   );
 };

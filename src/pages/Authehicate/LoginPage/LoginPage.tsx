@@ -1,8 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { cryptUraApi } from "../../../api/CryptUraApi";
 import { useLogin } from "../../../hooks/useLogin";
 import { useAuthStore } from "../../../stores/AuthStore";
+import { useTokenStore } from "../../../stores/tokenStore";
 
 const Auth: React.FC = () => {
   const navigate = useNavigate();
@@ -10,12 +12,14 @@ const Auth: React.FC = () => {
     username,
     password,
     twoFactorCode,
-    setLogin,
+    setUsername,
     setPassword,
     setTwoFactorCode,
   } = useAuthStore();
 
   const loginMutation = useLogin();
+
+  const setTokens = useTokenStore((state) => state.setTokens);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,14 +31,23 @@ const Auth: React.FC = () => {
         totp_code: twoFactorCode,
       },
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           localStorage.setItem("token", data.access_token);
+          localStorage.setItem("refresh_token", data.refresh_token);
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${data.access_token}`;
+          setTokens(data.access_token, data.refresh_token);
+
+          // try {
+          //   const keyResponse = await cryptUraApi.getApiKey();
+          //   localStorage.setItem("api_key", keyResponse.api_key);
+          //   console.log("API Key:", keyResponse.api_key);
+          // } catch (e) {
+          //   console.error("Ошибка получения api_key", e);
+          // }
+
           navigate("/");
-          console.log(data.access_token);
-          console.log(data);
         },
         onError: (error) => {
           console.error("Ошибка авторизации:", error.message);
@@ -64,7 +77,7 @@ const Auth: React.FC = () => {
               placeholder="Логин"
               required
               value={username}
-              onChange={(e) => setLogin(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">

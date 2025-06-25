@@ -13,7 +13,7 @@ const RegisterPage: React.FC = () => {
     password,
     confirmPassword,
     inviteCode,
-    setLogin,
+    setUsername,
     setPassword,
     setConfirmPassword,
     setInviteCode,
@@ -81,7 +81,7 @@ const RegisterPage: React.FC = () => {
               placeholder="Логин"
               required
               value={username}
-              onChange={(e) => setLogin(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border border-gray-300 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
             {/* Иконка пользователя */}

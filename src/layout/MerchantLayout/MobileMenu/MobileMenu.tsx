@@ -1,7 +1,9 @@
 // src/layout/MobileMenu/MobileMenu.tsx
 import { NavLink } from "react-router-dom";
+import { useAuthStore } from "../../../stores/AuthStore";
 
-export const MobileMenu = () => {
+export const MobileMenu = ({ rate }: { rate: number }) => {
+  const { username } = useAuthStore();
   return (
     <nav className="md:hidden px-4 py-3 bg-gray-50 border-t border-gray-200">
       <NavLink
@@ -18,18 +20,18 @@ export const MobileMenu = () => {
         Баланс
       </NavLink>
 
-      <NavLink
-        to="/profile"
-      >
-      <div className="flex items-center py-3 px-2 border-t cursor-pointer border-gray-200">
-        <span className="text-sm font-medium text-gray-900">MaKO Merchant</span>
-        <span className="ml-2 text-xs text-gray-500">Мой кабинет →</span>
-      </div>
+      <NavLink to="/profile">
+        <div className="flex items-center py-3 px-2 border-t cursor-pointer border-gray-200">
+          <span className="text-sm font-medium text-gray-900">
+            {username} Merchant
+          </span>
+          <span className="ml-2 text-xs text-gray-500">Мой кабинет →</span>
+        </div>
       </NavLink>
 
       <div className="flex justify-between items-center py-3 px-2 border-t border-gray-200">
         <span className="text-sm text-gray-500">USDT курс:</span>
-        <span className="text-sm font-medium">1 USDT = 78.7 ₽</span>
+        <span className="text-sm font-medium">1 USDT = {rate} ₽</span>
       </div>
     </nav>
   );

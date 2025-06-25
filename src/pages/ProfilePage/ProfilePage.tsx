@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { cryptUraApi } from "../../api/CryptUraApi";
+import { useAuthStore } from "../../stores/AuthStore";
 
 export function ProfilePage() {
   const [showActiveSessionsModal, setShowActiveSessionsModal] = useState(false);
@@ -56,6 +58,28 @@ export function ProfilePage() {
       id: 6,
     },
   ];
+  const { username } = useAuthStore();
+
+  const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
+  const [merchantFee, setMerchantFee] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchCallback = async () => {
+      const response = await cryptUraApi.getMerchantFee();
+      setMerchantFee(response)
+
+    };
+    fetchCallback()
+  }, []);
+
+  useEffect(() => {
+    const fetchCallback = async () => {
+      const response = await cryptUraApi.getCallbackApi();
+      setCallbackUrl(response)
+
+    };
+    fetchCallback()
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -98,7 +122,9 @@ export function ProfilePage() {
               <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
             <div className="ml-4">
-              <h2 className="text-xl font-semibold text-gray-900">MaKO</h2>
+              <h2 className="text-xl font-semibold text-gray-900">
+                {username}
+              </h2>
               <p className="text-gray-500">Merchant</p>
             </div>
           </div>
@@ -111,7 +137,7 @@ export function ProfilePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Recent Actions */}
-              <button
+              {/* <button
                 onClick={() => setShowRecentActionsModal(true)}
                 className="flex items-center cursor-pointer p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
               >
@@ -132,10 +158,10 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">Последние действия</span>
-              </button>
+              </button> */}
 
               {/* Active Sessions */}
-              <button
+              {/* <button
                 onClick={() => setShowActiveSessionsModal(true)}
                 className="flex items-center cursor-pointer p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left"
               >
@@ -156,7 +182,7 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">Активные сессии</span>
-              </button>
+              </button> */}
 
               {/* Two-Factor Authentication */}
               <div className="flex items-center p-4 border border-gray-200 rounded-lg">
@@ -183,7 +209,7 @@ export function ProfilePage() {
               </div>
 
               {/* Push Bot Setup */}
-              <button
+              {/* <button
                 onClick={() => setShowPushBotModal(true)}
                 className="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 text-left cursor-pointer"
               >
@@ -204,7 +230,7 @@ export function ProfilePage() {
                   </svg>
                 </div>
                 <span className="text-gray-700">Настроить пуш-бота</span>
-              </button>
+              </button> */}
 
               {/* Merchant Rate */}
               <div className="flex items-center p-4 border border-gray-200 rounded-lg">
@@ -212,7 +238,7 @@ export function ProfilePage() {
                   <span className="text-sm font-medium text-gray-600">%</span>
                 </div>
                 <div>
-                  <div className="text-md font-normal text-black">9%</div>
+                  <div className="text-md font-normal text-black">{merchantFee}%</div>
                   <div className="text-sm text-gray-500">
                     Текущая ставка мерчанта
                   </div>
@@ -240,7 +266,7 @@ export function ProfilePage() {
                 <div className="flex-1">
                   <div className="text-gray-700">Callback API</div>
                   <div className="text-xs text-blue-600 truncate">
-                    https://www.figma.com/design/J2FevMXiwM
+                    {callbackUrl}
                   </div>
                 </div>
                 <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer">
@@ -262,12 +288,12 @@ export function ProfilePage() {
               </div>
 
               {/* Wallets */}
-              <button className="flex items-center cursor-pointer p-4 border  border-gray-200 rounded-lg hover:bg-gray-50 text-left">
+              {/* <button className="flex items-center cursor-pointer p-4 border  border-gray-200 rounded-lg hover:bg-gray-50 text-left">
                 <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
                   <span className="text-sm font-medium text-gray-600">%</span>
                 </div>
                 <span className="text-gray-700">Кошелек</span>
-              </button>
+              </button> */}
 
               {/* Assets */}
               <NavLink
@@ -348,8 +374,8 @@ export function ProfilePage() {
                   Логин
                 </label>
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-900">Trafer2322</span>
-                  <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
+                  <span className="text-gray-900">{username}</span>
+                  {/* <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
@@ -364,35 +390,11 @@ export function ProfilePage() {
                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                       />
                     </svg>
-                  </button>
+                  </button> */}
                 </div>
               </div>
 
               {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Почта
-                </label>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-900">ulan_2006@gmail.com</span>
-                  <button className="text-gray-400 hover:text-gray-600 cursor-pointer">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>

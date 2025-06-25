@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { cryptUraApi } from "../../api/CryptUraApi";
 import { DashboardSection } from "./components/DashboardSection/DashboardSection";
+import DashboardSummary from "./components/DashboardSummary/DashboardSummary";
 import { TransactionsTable } from "./components/TranstactionsTable/TranstactionsTable";
 
 export const HomePage = () => {
-  const [apiKey, setApiKey] = useState<string | null>(null);
-  //@ts-ignore
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchKey = async () => {
       try {
         const response = await cryptUraApi.getApiKey();
-        setApiKey(response.api_key);
+        //@ts-ignore
+
+        localStorage.setItem("api_key", response);
         console.log(response);
+
+        return response;
       } catch (err: any) {
-        if (err.response?.status === 403) {
-          setError("Доступ запрещён");
-        } else {
-          setError("Ошибка при получении API ключа");
-        }
+        // if (err.response?.status === 403) {
+        //   setError("Доступ запрещён");
+        // } else {
+        //   setError("Ошибка при получении API ключа");
+        // }
       }
     };
 
@@ -31,7 +32,6 @@ export const HomePage = () => {
       <div id="toast-container" className="toast-container p-4 sm:p-6"></div>
 
       <div className="max-w-7xl mx-auto bg-white shadow-sm">
-        {apiKey ? apiKey : "Нет ключа"}
         <DashboardSection />
 
         <main className="px-4 sm:px-6 py-6">
@@ -39,90 +39,12 @@ export const HomePage = () => {
             Платежи
           </h1>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 sm:mb-8">
-            <div className="border border-gray-200 rounded-lg p-4">
-              <div className="text-sm text-gray-500 mb-4">За неделю</div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">261</div>
-                  <div className="text-xs text-gray-500">Платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">123</div>
-                    <div className="text-xs text-gray-500">
-                      Платежей в обработке
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">212</div>
-                  <div className="text-xs text-gray-500">Успешных платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">24</div>
-                    <div className="text-xs text-gray-500">
-                      Отмененных платежей
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 rounded-lg p-4">
-              <div className="text-sm text-gray-500 mb-4">За месяц</div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">5 620</div>
-                  <div className="text-xs text-gray-500">Платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">125</div>
-                    <div className="text-xs text-gray-500">
-                      Платежей в обработке
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">5 200</div>
-                  <div className="text-xs text-gray-500">Успешных платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">350</div>
-                    <div className="text-xs text-gray-500">
-                      Отмененных платежей
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="border border-gray-200 rounded-lg p-4 sm:col-span-2 lg:col-span-1">
-              <div className="text-sm text-gray-500 mb-4">За год</div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">65 498</div>
-                  <div className="text-xs text-gray-500">Платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">125</div>
-                    <div className="text-xs text-gray-500">
-                      Платежей в обработке
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="text-lg sm:text-xl font-bold">64 235</div>
-                  <div className="text-xs text-gray-500">Успешных платежей</div>
-                  <div className="mt-4">
-                    <div className="text-lg sm:text-xl font-bold">1 000</div>
-                    <div className="text-xs text-gray-500">
-                      Отмененных платежей
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <DashboardSummary />
 
           <div className="mb-6">
             <h2 className="text-xl font-bold mb-4">Последние сделки</h2>
 
-            <div className="flex flex-col gap-4 mb-6">
+            {/* <div className="flex flex-col gap-4 mb-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="relative flex-1">
                   <input
@@ -168,7 +90,8 @@ export const HomePage = () => {
                   </svg>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 p-3 bg-gray-50 rounded-lg">
+            </div> */}
+            {/* <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 p-3 bg-gray-50 rounded-lg">
                 <div className="text-sm font-medium text-gray-700 mb-2 sm:mb-0 sm:mr-2">
                   Статус:
                 </div>
@@ -181,10 +104,9 @@ export const HomePage = () => {
                     <span className="text-sm">Включено / Отключено</span>
                   </label>
                 </div>
-              </div>
-            </div>
+              </div> */}
 
-            <div className="block sm:hidden">
+            <div className="hidden md:hidden">
               <div className="space-y-4">
                 {/* {[789884, 789885, 789886].map((id) => (
                   <div
@@ -278,7 +200,7 @@ export const HomePage = () => {
                     </div>
                   </div>
                 ))} */}
-                {/* {[789884, 789885, 789886].map((id) => (
+                {[789884, 789885, 789886].map((id) => (
                   <div
                     key={id}
                     className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50"
@@ -369,69 +291,11 @@ export const HomePage = () => {
                       </svg>
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
             </div>
 
             <TransactionsTable />
-
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-6 text-sm">
-              <div className="text-gray-500 text-xs sm:text-sm mb-3 sm:mb-0">
-                Showing data 1 to 6 of 256k entries
-              </div>
-              <div className="flex items-center justify-center sm:justify-end space-x-1">
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 sm:h-4 sm:w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md bg-green-600 text-white">
-                  1
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  2
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  3
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200 hidden sm:flex">
-                  4
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  ...
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  40
-                </button>
-                <button className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-md border border-gray-200">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-3 w-3 sm:h-4 sm:w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
           </div>
         </main>
       </div>

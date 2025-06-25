@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoutes";
-import UnauthenticatedRoute from "./components/UnauthenticatedRoute/UnauthenticatedRoute";
+import ProtectedRoute from "./providers/ProtectedRoute/ProtectedRoutes";
+import UnauthenticatedRoute from "./providers/UnauthenticatedRoute/UnauthenticatedRoute";
 import { MerchantLayout } from "./layout/MerchantLayout/MerchantLayout";
 import { SupportLayout } from "./layout/SupportLayout/SupportLayout";
 import { ActivesPage } from "./pages/ActivesPage/ActivesPage";
