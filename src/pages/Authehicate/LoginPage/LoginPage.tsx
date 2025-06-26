@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { cryptUraApi } from "../../../api/CryptUraApi";
 import { useLogin } from "../../../hooks/useLogin";
 import { useAuthStore } from "../../../stores/AuthStore";
 import { useTokenStore } from "../../../stores/tokenStore";

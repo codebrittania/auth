@@ -16,15 +16,15 @@ interface SummaryStats {
 
 export const DashboardSummary = () => {
   const [stats, setStats] = useState<SummaryStats | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSummary = async () => {
       try {
-        const data = await cryptUraApi.getSummaryStats(); 
+        const data = await cryptUraApi.getSummaryStats();
         setStats(data);
       } catch (err) {
-        setError("Ошибка при загрузке статистики");
+        // setError("Ошибка при загрузке статистики");
         console.error(err);
       }
     };
@@ -53,18 +53,26 @@ const SummaryCard = ({
       <div className="text-sm text-gray-500 mb-4">{title}</div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <div className="text-lg sm:text-xl font-bold">{data?.total ?? "—"}</div>
+          <div className="text-lg sm:text-xl font-bold">
+            {data?.total ?? "—"}
+          </div>
           <div className="text-xs text-gray-500">Платежей</div>
           <div className="mt-4">
-            <div className="text-lg sm:text-xl font-bold">{data?.pending ?? "—"}</div>
+            <div className="text-lg sm:text-xl font-bold">
+              {data?.pending ?? "—"}
+            </div>
             <div className="text-xs text-gray-500">Платежей в обработке</div>
           </div>
         </div>
         <div>
-          <div className="text-lg sm:text-xl font-bold">{data?.completed ?? "—"}</div>
+          <div className="text-lg sm:text-xl font-bold">
+            {data?.completed ?? "—"}
+          </div>
           <div className="text-xs text-gray-500">Успешных платежей</div>
           <div className="mt-4">
-            <div className="text-lg sm:text-xl font-bold">{data?.cancelled ?? "—"}</div>
+            <div className="text-lg sm:text-xl font-bold">
+              {data?.cancelled ?? "—"}
+            </div>
             <div className="text-xs text-gray-500">Отмененных платежей</div>
           </div>
         </div>

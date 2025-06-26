@@ -57,6 +57,7 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
   const validateForm = () => {
     const { amount, totalReceive } = calculateTotal();
     return (
+      //@ts-ignore
       amount > 0 && amount <= maxBalance && totalReceive > 0 && walletValid
     );
   };
