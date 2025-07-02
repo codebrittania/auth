@@ -61,10 +61,9 @@ export function ProfilePage() {
   ];
   const { username } = useAuthStore();
 
-  // const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
+  const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
   const [merchantFee, setMerchantFee] = useState<number | null>(null);
 
-  console.log();
   useEffect(() => {
     const fetchCallback = async () => {
       const response = await cryptUraApi.getMerchantFee();
@@ -73,13 +72,13 @@ export function ProfilePage() {
     fetchCallback();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchCallback = async () => {
-  //     const response = await cryptUraApi.getCallbackApi();
-  //     setCallbackUrl(response);
-  //   };
-  //   fetchCallback();
-  // }, []);
+  useEffect(() => {
+    const fetchCallback = async () => {
+      const response = await cryptUraApi.getCallbackApi();
+      setCallbackUrl(response);
+    };
+    fetchCallback();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -267,8 +266,48 @@ export function ProfilePage() {
                 </div>
                 <div className="flex-1">
                   <div className="text-gray-700">Callback API</div>
-                  <div className="text-xs text-blue-600 break-all max-w-[14rem]">
-                    <span className="">{api_key_token}</span>
+                  <div className="text-xs text-blue-600 truncate">
+                    {callbackUrl}
+                  </div>
+                </div>
+                {/* <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </button> */}
+              </div>
+              <div className="flex items-center p-4 border border-gray-200 rounded-lg">
+                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-gray-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                    />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <div className="text-gray-700">API key</div>
+                  <div className="text-xs text-blue-600  break-all whitespace-normal">
+                    <span>{api_key_token}</span>
                   </div>
                 </div>
                 {/* <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer">

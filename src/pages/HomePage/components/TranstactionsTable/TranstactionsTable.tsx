@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 
 interface Transaction {
   id: string;
+  internal_id?: string;
   created: string;
   type: string;
   status: "pending" | "completed" | "cancelled" | "processing" | "failed";
@@ -79,6 +80,7 @@ export const TransactionsTable = () => {
     const details = item.details || {};
     return {
       id: item.id.toString(),
+      internal_id: details?.internal_id || '-',
       created: details?.time || item.created_at,
       type: item.payment_method?.toUpperCase() || "UNKNOWN",
       status: item.status,
@@ -322,6 +324,7 @@ export const TransactionsTable = () => {
               <tr>
                 {[
                   "ID",
+                  "Внут. ID",
                   "Создан",
                   "Тип",
                   "Статус",
@@ -351,6 +354,9 @@ export const TransactionsTable = () => {
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {transaction.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {transaction.internal_id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       <div>{date}</div>
