@@ -11,12 +11,26 @@ export function ActivesPage() {
 
   const [rate, setRate] = useState<any>({});
 
+  const [merchantBalance, setMerchantBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchMerchantBalance = async () => {
+      try {
+        const res = await cryptUraApi.getMerchantBalance();
+        setMerchantBalance(res.balance);
+      } catch (e) {
+        console.error("Ошибка при получении статистики баланса", e);
+      }
+    };
+
+    fetchMerchantBalance();
+  }, []);
 
   useEffect(() => {
     const fetchRate = async () => {
       try {
         const response = await cryptUraApi.rateUsdtRub();
-        setRate(response); 
+        setRate(response);
       } catch (err: any) {
         console.error("Rate fetch error:", err);
       }
@@ -27,12 +41,9 @@ export function ActivesPage() {
   const MAX_BALANCE = statsBalance?.wallet_usdt;
   const USDT_TO_RUB = rate.ask;
   const rubEquivalent =
-    typeof statsBalance?.wallet_usdt === "number"
-      ? Math.round(statsBalance.wallet_usdt * USDT_TO_RUB).toLocaleString(
-          "ru-RU"
-        )
+    typeof merchantBalance === "number"
+      ? Math.round(merchantBalance * USDT_TO_RUB).toLocaleString("ru-RU")
       : "---";
-
 
   useEffect(() => {
     const fetchStatsBalances = async () => {
@@ -104,7 +115,7 @@ export function ActivesPage() {
             </h3>
             <div className="mb-4">
               <div className="text-2xl font-bold text-gray-900">
-                {statsBalance?.wallet_usdt} USDT
+                {merchantBalance} USDT
               </div>
               <div className="text-sm text-gray-500">~{rubEquivalent} RUB</div>
             </div>
