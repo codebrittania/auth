@@ -127,6 +127,20 @@ class CryptUraApi {
     return data;
   }
 
+  async getMerchantBalance(): Promise<any> {
+    const token = localStorage.getItem("token");
+
+  const { data } = await axios.get(
+      "http://92.118.115.96:8004/api/merchant/balance",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  }
+
   async getStatsBalances(): Promise<StatsBalanceResponse> {
     const token = localStorage.getItem("token");
 
