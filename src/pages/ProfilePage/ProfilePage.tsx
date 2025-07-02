@@ -10,6 +10,7 @@ export function ProfilePage() {
   const [showRecentActionsModal, setShowRecentActionsModal] = useState(false);
   const [showPushBotModal, setShowPushBotModal] = useState(false);
   const [pushBotToken, setPushBotToken] = useState("fgdf5gg234kqjvr5u3n4p6n");
+  const api_key_token = localStorage.getItem("api_key");
 
   const activeSessions = [
     { device: "iPhone 11 Pro", ip: "192.168.1.1", id: 1 },
@@ -63,22 +64,21 @@ export function ProfilePage() {
   const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
   const [merchantFee, setMerchantFee] = useState<number | null>(null);
 
+  console.log();
   useEffect(() => {
     const fetchCallback = async () => {
       const response = await cryptUraApi.getMerchantFee();
-      setMerchantFee(response)
-
+      setMerchantFee(response);
     };
-    fetchCallback()
+    fetchCallback();
   }, []);
 
   useEffect(() => {
     const fetchCallback = async () => {
       const response = await cryptUraApi.getCallbackApi();
-      setCallbackUrl(response)
-
+      setCallbackUrl(response);
     };
-    fetchCallback()
+    fetchCallback();
   }, []);
 
   return (
@@ -238,7 +238,9 @@ export function ProfilePage() {
                   <span className="text-sm font-medium text-gray-600">%</span>
                 </div>
                 <div>
-                  <div className="text-md font-normal text-black">{merchantFee}%</div>
+                  <div className="text-md font-normal text-black">
+                    {merchantFee}%
+                  </div>
                   <div className="text-sm text-gray-500">
                     Текущая ставка мерчанта
                   </div>
@@ -265,11 +267,11 @@ export function ProfilePage() {
                 </div>
                 <div className="flex-1">
                   <div className="text-gray-700">Callback API</div>
-                  <div className="text-xs text-blue-600 truncate">
-                    {callbackUrl}
+                  <div className="text-xs text-blue-600 break-all max-w-[14rem]">
+                    <span className="">{api_key_token}</span>
                   </div>
                 </div>
-                <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                {/* <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -284,7 +286,7 @@ export function ProfilePage() {
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                </button>
+                </button> */}
               </div>
 
               {/* Wallets */}
