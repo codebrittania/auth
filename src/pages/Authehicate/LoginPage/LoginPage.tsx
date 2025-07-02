@@ -38,14 +38,6 @@ const Auth: React.FC = () => {
           ] = `Bearer ${data.access_token}`;
           setTokens(data.access_token, data.refresh_token);
 
-          // try {
-          //   const keyResponse = await cryptUraApi.getApiKey();
-          //   localStorage.setItem("api_key", keyResponse.api_key);
-          //   console.log("API Key:", keyResponse.api_key);
-          // } catch (e) {
-          //   console.error("Ошибка получения api_key", e);
-          // }
-
           navigate("/");
         },
         onError: (error) => {

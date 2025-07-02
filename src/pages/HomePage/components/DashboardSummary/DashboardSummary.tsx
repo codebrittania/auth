@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { cryptUraApi } from "../../../../api/CryptUraApi";
+import { useSummaryStats } from "../../hooks/useSummaryStats";
 
 interface PeriodStats {
   total: number;
@@ -8,35 +7,19 @@ interface PeriodStats {
   cancelled: number;
 }
 
-interface SummaryStats {
-  week: PeriodStats;
-  month: PeriodStats;
-  year: PeriodStats;
-}
+// interface SummaryStats {
+//   week: PeriodStats;
+//   month: PeriodStats;
+//   year: PeriodStats;
+// }
 
 export const DashboardSummary = () => {
-  const [stats, setStats] = useState<SummaryStats | null>(null);
-  // const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchSummary = async () => {
-      try {
-        const data = await cryptUraApi.getSummaryStats();
-        setStats(data);
-      } catch (err) {
-        // setError("Ошибка при загрузке статистики");
-        console.error(err);
-      }
-    };
-
-    fetchSummary();
-  }, []);
-
+  const { data: summaryStats } = useSummaryStats();
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 sm:mb-8">
-      <SummaryCard title="За неделю" data={stats?.week} />
-      <SummaryCard title="За месяц" data={stats?.month} />
-      <SummaryCard title="За год" data={stats?.year} />
+      <SummaryCard title="За неделю" data={summaryStats?.week} />
+      <SummaryCard title="За месяц" data={summaryStats?.month} />
+      <SummaryCard title="За год" data={summaryStats?.year} />
     </div>
   );
 };

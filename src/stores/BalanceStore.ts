@@ -1,11 +1,11 @@
-// import { create } from 'zustand';
+import { create } from "zustand";
 
-// interface WithdrawalState {
-//   withdrawAmount: string;
+interface BalanceState {
+  balance: number | null;
+  setBalance: (value: number | null) => void;
+}
 
-// }
-
-// export const useWithdrawalStore = create<WithdrawalState>((set) => ({
-//   withdrawAmount: '',
-
-// }));
+export const useBalanceStore = create<BalanceState>((set) => ({
+  balance: null,
+  setBalance: (value) => set({ balance: value }),
+}));

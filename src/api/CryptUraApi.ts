@@ -51,7 +51,7 @@ export interface GetWalletsResponse {
 class CryptUraApi {
   async register(payload: RegisterPayload): Promise<RegisterResponse> {
     const { data } = await axios.post(
-      "http://92.118.115.96:8004/api/register",
+      "https://cryptura.space/api/register",
       payload
     );
     return data;
@@ -59,7 +59,7 @@ class CryptUraApi {
 
   async login(payload: LoginPayload): Promise<LoginResponse> {
     const { data } = await axios.post(
-      "http://92.118.115.96:8004/api/login",
+      "https://cryptura.space/api/login",
       payload
     );
     return data;
@@ -71,7 +71,7 @@ class CryptUraApi {
 
     // Отправляем POST, передавая refresh_token в body как JSON
     const { data } = await axios.post<LoginResponse>(
-      "http://92.118.115.96:8004/api/refresh",
+      "https://cryptura.space/api/refresh",
       { refresh_token: refreshToken }
     );
 
@@ -86,18 +86,18 @@ class CryptUraApi {
 
   async getApiKey(): Promise<ApiKeyResponse> {
     const token = localStorage.getItem("token");
-    console.log(`token getApiKey: ${token} `);
+    // console.log(`token getApiKey: ${token} `);
 
     if (!token) {
       throw new Error("Нет токена авторизации");
     }
-    const { data } = await axios.get("http://92.118.115.96:8004/api/api-key", {
+    const { data } = await axios.get("https://cryptura.space/api/api-key", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     localStorage.setItem("api_key", data.api_key);
-    console.log(data);
+    // console.log(data);
     return data;
   }
 
@@ -110,7 +110,7 @@ class CryptUraApi {
     const token = localStorage.getItem("token");
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/transactions",
+      "https://cryptura.space/api/merchant/transactions",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -123,15 +123,14 @@ class CryptUraApi {
         },
       }
     );
-    console.log(data);
     return data;
   }
 
   async getMerchantBalance(): Promise<any> {
     const token = localStorage.getItem("token");
 
-  const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/balance",
+    const { data } = await axios.get(
+      "https://cryptura.space/api/merchant/balance",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -149,7 +148,7 @@ class CryptUraApi {
     // }
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/stats/balances",
+      "https://cryptura.space/api/merchant/stats/balances",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -182,7 +181,7 @@ class CryptUraApi {
     const token = localStorage.getItem("token");
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/stats/summary",
+      "https://cryptura.space/api/merchant/stats/summary",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -198,7 +197,7 @@ class CryptUraApi {
     const api_key = localStorage.getItem("api_key");
 
     const { data } = await axios.post(
-      "http://92.118.115.96:8004/api/merchant/withdraw",
+      "https://cryptura.space/api/merchant/withdraw",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -216,7 +215,7 @@ class CryptUraApi {
 
   async rateUsdtRub(): Promise<any> {
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/rate/usdt-rub"
+      "https://cryptura.space/api/rate/usdt-rub"
     );
     return data;
   }
@@ -225,7 +224,7 @@ class CryptUraApi {
     const token = localStorage.getItem("token");
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/wallets",
+      "https://cryptura.space/api/merchant/wallets",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -239,7 +238,7 @@ class CryptUraApi {
     const token = localStorage.getItem("token");
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/callback-url",
+      "https://cryptura.space/api/merchant/callback-url",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -248,12 +247,12 @@ class CryptUraApi {
     );
     return data;
   }
-  
+
   async getMerchantFee(): Promise<any> {
     const token = localStorage.getItem("token");
 
     const { data } = await axios.get(
-      "http://92.118.115.96:8004/api/merchant/fee",
+      "https://cryptura.space/api/merchant/fee",
       {
         headers: {
           Authorization: `Bearer ${token}`,

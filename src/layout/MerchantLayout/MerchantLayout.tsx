@@ -14,7 +14,8 @@ export const MerchantLayout = () => {
   const activeClass = "font-medium text-black";
   const inactiveClass = "font-medium text-gray-400";
 
-  const { username } = useAuthStore();
+  const username = useAuthStore((state) => state.username);
+
 
   useEffect(() => {
     const fetchRate = async () => {

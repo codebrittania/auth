@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { cryptUraApi } from "../../api/CryptUraApi";
 import { useAuthStore } from "../../stores/AuthStore";
+import { useMerchantFee } from "./hooks/useMerchantFee";
 
 export function ProfilePage() {
   const [showActiveSessionsModal, setShowActiveSessionsModal] = useState(false);
@@ -11,6 +12,10 @@ export function ProfilePage() {
   const [showPushBotModal, setShowPushBotModal] = useState(false);
   const [pushBotToken, setPushBotToken] = useState("fgdf5gg234kqjvr5u3n4p6n");
   const api_key_token = localStorage.getItem("api_key");
+
+  const username = useAuthStore((state) => state.username);
+
+  const {data: merchantFee} = useMerchantFee()
 
   const activeSessions = [
     { device: "iPhone 11 Pro", ip: "192.168.1.1", id: 1 },
@@ -59,18 +64,9 @@ export function ProfilePage() {
       id: 6,
     },
   ];
-  const { username } = useAuthStore();
 
   const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
-  const [merchantFee, setMerchantFee] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchCallback = async () => {
-      const response = await cryptUraApi.getMerchantFee();
-      setMerchantFee(response);
-    };
-    fetchCallback();
-  }, []);
 
   useEffect(() => {
     const fetchCallback = async () => {
@@ -79,7 +75,7 @@ export function ProfilePage() {
     };
     fetchCallback();
   }, []);
-
+// console.log(callbackUrl);
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto bg-white">

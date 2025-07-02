@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { cryptUraApi } from "../../../../api/CryptUraApi";
 import { WithdrawalModal } from "../../../../components/WithdrawalModal";
+import { useMerchantBalance } from "../../../../hooks/useMerchantBalance";
+import { useBalanceStore } from "../../../../stores/BalanceStore";
+import { useStatsBalances } from "../../hooks/useStatsBalances";
 
 export interface StatsBalance {
   wallet_usdt: number;
@@ -13,26 +15,22 @@ export interface StatsBalance {
 export const DashboardSection = () => {
   const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
 
-  const [statsBalance, setStatsBalance] = useState<StatsBalance | null>(null);
-  const [merchantBalance, setMerchantBalance] = useState<number | null>(null);
+  const { data: merchantBalance } = useMerchantBalance();
 
-  //@ts-ignore
-  const [error, setError] = useState<string | null>(null);
-
-  const MAX_BALANCE = statsBalance?.wallet_usdt;
+  // console.log(merchantBalance);
+  const { setBalance } = useBalanceStore();
 
   useEffect(() => {
-    const fetchMerchantBalance = async () => {
-      try {
-        const res = await cryptUraApi.getMerchantBalance();
-        setMerchantBalance(res.balance);
-      } catch (e) {
-        console.error("Ошибка при получении статистики баланса", e);
-      }
-    };
+    if (typeof merchantBalance?.balance === "number") {
+      setBalance(merchantBalance.balance);
+    } else {
+      setBalance(0);
+    }
+  }, [merchantBalance, setBalance]);
 
-    fetchMerchantBalance();
-  }, []);
+  const { data: statsBalance } = useStatsBalances();
+
+  const MAX_BALANCE = statsBalance?.wallet_usdt;
 
   const openWithdrawalModal = () => {
     setWithdrawalModalOpen(true);
@@ -43,19 +41,6 @@ export const DashboardSection = () => {
     setWithdrawalModalOpen(false);
     document.body.style.overflow = "auto";
   };
-
-  useEffect(() => {
-    const fetchStatsBalances = async () => {
-      try {
-        const res = await cryptUraApi.getStatsBalances();
-        setStatsBalance(res);
-      } catch (e) {
-        console.error("Ошибка при получении статистики баланса", e);
-      }
-    };
-
-    fetchStatsBalances();
-  }, []);
 
   return (
     <>
@@ -91,8 +76,11 @@ export const DashboardSection = () => {
               </div>
             </div>
             <div className="text-3xl font-bold">
-              {merchantBalance ?? "—"}
-              <span className="text-gray-300"> USDT</span>
+              {merchantBalance?.balance === null ? 0 : merchantBalance?.balance}
+              <span className="text-gray-300">
+                {" "}
+                {merchantBalance?.currency}
+              </span>
             </div>
             <div className="text-sm text-gray-300">USDT Wallet</div>
           </div>

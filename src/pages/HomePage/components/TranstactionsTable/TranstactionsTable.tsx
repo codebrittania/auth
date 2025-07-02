@@ -80,7 +80,7 @@ export const TransactionsTable = () => {
     const details = item.details || {};
     return {
       id: item.id.toString(),
-      internal_id: details?.internal_id || '-',
+      internal_id: details?.internal_id || "-",
       created: details?.time || item.created_at,
       type: item.payment_method?.toUpperCase() || "UNKNOWN",
       status: item.status,

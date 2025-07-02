@@ -12,7 +12,7 @@ export const HomePage = () => {
         //@ts-ignore
 
         localStorage.setItem("api_key", response);
-        console.log(response);
+        // console.log(response);
 
         return response;
       } catch (err: any) {

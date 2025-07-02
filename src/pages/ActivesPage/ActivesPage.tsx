@@ -2,29 +2,11 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { cryptUraApi } from "../../api/CryptUraApi";
 import { WithdrawalModal } from "../../components/WithdrawalModal";
-import type { StatsBalance } from "../HomePage/components/DashboardSection/DashboardSection";
+import { useBalanceStore } from "../../stores/BalanceStore";
 
 export function ActivesPage() {
   const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
-
-  const [statsBalance, setStatsBalance] = useState<StatsBalance | null>(null);
-
   const [rate, setRate] = useState<any>({});
-
-  const [merchantBalance, setMerchantBalance] = useState<number | null>(null);
-
-  useEffect(() => {
-    const fetchMerchantBalance = async () => {
-      try {
-        const res = await cryptUraApi.getMerchantBalance();
-        setMerchantBalance(res.balance);
-      } catch (e) {
-        console.error("Ошибка при получении статистики баланса", e);
-      }
-    };
-
-    fetchMerchantBalance();
-  }, []);
 
   useEffect(() => {
     const fetchRate = async () => {
@@ -38,25 +20,17 @@ export function ActivesPage() {
 
     fetchRate();
   }, []);
-  const MAX_BALANCE = statsBalance?.wallet_usdt;
+
+  // const { data: merchantBalance } = useMerchantBalance();
+  const { balance } = useBalanceStore();
+  // console.log(merchantBalance);
+
   const USDT_TO_RUB = rate.ask;
+  const MAX_BALANCE = balance === null ? 0 : balance;
   const rubEquivalent =
-    typeof merchantBalance === "number"
-      ? Math.round(merchantBalance * USDT_TO_RUB).toLocaleString("ru-RU")
+    typeof balance === "number"
+      ? Math.round(balance * USDT_TO_RUB).toLocaleString("ru-RU")
       : "---";
-
-  useEffect(() => {
-    const fetchStatsBalances = async () => {
-      try {
-        const res = await cryptUraApi.getStatsBalances();
-        setStatsBalance(res);
-      } catch (e) {
-        console.error("Ошибка при получении статистики баланса", e);
-      }
-    };
-
-    fetchStatsBalances();
-  }, []);
 
   const openWithdrawalModal = () => {
     setWithdrawalModalOpen(true);
@@ -115,7 +89,7 @@ export function ActivesPage() {
             </h3>
             <div className="mb-4">
               <div className="text-2xl font-bold text-gray-900">
-                {merchantBalance} USDT
+                {balance === null ? 0 : balance} USDT
               </div>
               <div className="text-sm text-gray-500">~{rubEquivalent} RUB</div>
             </div>

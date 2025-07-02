@@ -146,7 +146,6 @@ export default function SupportDashboard() {
   const confirmTransaction = () => {
     if (selectedTransaction) {
       console.log("Confirming transaction:", selectedTransaction.id);
-      // Here you would make an API call to confirm the transaction
       alert(`Транзакция ${selectedTransaction.id} подтверждена`);
     }
     setShowConfirmModal(false);
