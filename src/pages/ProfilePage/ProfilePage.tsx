@@ -61,7 +61,7 @@ export function ProfilePage() {
   ];
   const { username } = useAuthStore();
 
-  const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
+  // const [callbackUrl, setCallbackUrl] = useState<string | null>(null);
   const [merchantFee, setMerchantFee] = useState<number | null>(null);
 
   console.log();
@@ -73,13 +73,13 @@ export function ProfilePage() {
     fetchCallback();
   }, []);
 
-  useEffect(() => {
-    const fetchCallback = async () => {
-      const response = await cryptUraApi.getCallbackApi();
-      setCallbackUrl(response);
-    };
-    fetchCallback();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCallback = async () => {
+  //     const response = await cryptUraApi.getCallbackApi();
+  //     setCallbackUrl(response);
+  //   };
+  //   fetchCallback();
+  // }, []);
 
   return (
     <div className="min-h-screen bg-white">
