@@ -7,14 +7,28 @@ interface WithdrawalModalProps {
   maxBalance: number | undefined;
 }
 
+type WhitelistWallet = {
+  address: string;
+  created_at: string;
+  created_by: number;
+  currency: string;
+  id: number;
+  is_active: boolean;
+  is_default: boolean;
+  merchant_id: number;
+  network: string;
+  updated_at: string | null;
+};
+
 export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
   isOpen,
   onClose,
   maxBalance,
 }) => {
-  const [whitelistedWallets, setWhitelistedWallets] = useState<string[]>([]);
-
-
+  const [whitelistedWallets, setWhitelistedWallets] = useState<
+    WhitelistWallet[]
+  >([]);
+  console.log(whitelistedWallets);
 
   useEffect(() => {
     const getWhiteListWallets = async () => {
@@ -28,18 +42,18 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
 
     getWhiteListWallets();
   }, []);
-
   const NETWORK_FEE = 2.5;
   const SERVICE_FEE_PERCENT = 0.5;
-
-  useEffect;
 
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [walletValid, setWalletValid] = useState(false);
 
   const validateWallet = (address: string) => {
-    const isValid = whitelistedWallets.includes(address);
+    const cleaned = address.trim();
+    const isValid = whitelistedWallets.some(
+      (wallet) => wallet.address.trim() === cleaned
+    );
     setWalletValid(isValid);
   };
 

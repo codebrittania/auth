@@ -143,9 +143,6 @@ class CryptUraApi {
   async getStatsBalances(): Promise<StatsBalanceResponse> {
     const token = localStorage.getItem("token");
 
-    // if (!api_key) {
-    //   throw new Error("Нет API-ключа");
-    // }
 
     const { data } = await axios.get(
       "https://cryptura.space/api/merchant/stats/balances",
