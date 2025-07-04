@@ -17,7 +17,7 @@ export const DashboardSection = () => {
 
   const { data: merchantBalance } = useMerchantBalance();
 
-  // console.log(merchantBalance);
+  console.log(merchantBalance?.balance);
   const { setBalance } = useBalanceStore();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export const DashboardSection = () => {
 
   const { data: statsBalance } = useStatsBalances();
 
-  const MAX_BALANCE = statsBalance?.wallet_usdt;
+  const MAX_BALANCE = merchantBalance?.balance;
 
   const openWithdrawalModal = () => {
     setWithdrawalModalOpen(true);

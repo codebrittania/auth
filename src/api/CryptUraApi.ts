@@ -1,4 +1,3 @@
-// src/api/crypturaApi.ts
 import axios from "axios";
 
 export interface RegisterPayload {
@@ -143,7 +142,6 @@ class CryptUraApi {
   async getStatsBalances(): Promise<StatsBalanceResponse> {
     const token = localStorage.getItem("token");
 
-
     const { data } = await axios.get(
       "https://cryptura.space/api/merchant/stats/balances",
       {
@@ -190,24 +188,35 @@ class CryptUraApi {
   }
 
   async createWithdraw(amount: number, wallet: string): Promise<any> {
-    const token = localStorage.getItem("token");
     const api_key = localStorage.getItem("api_key");
 
-    const { data } = await axios.post(
-      "https://cryptura.space/api/merchant/withdraw",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-API-KEY": api_key,
-        },
-        params: {
-          amount,
-          wallet,
-        },
-      }
-    );
 
-    return data;
+    const url = new URL("https://cryptura.space/api/merchant/withdraw");
+    url.searchParams.append("amount", amount.toString());
+    url.searchParams.append("wallet", wallet);
+
+    try {
+      const { data } = await axios.post(
+        url.toString(), 
+        {}, 
+        {
+          headers: {
+            "X-API-KEY": api_key,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Withdrawal error:", {
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+        throw new Error(error.response?.data?.message || "Withdrawal failed");
+      }
+      throw error;
+    }
   }
 
   async rateUsdtRub(): Promise<any> {

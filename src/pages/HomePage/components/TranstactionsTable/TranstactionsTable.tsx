@@ -66,7 +66,7 @@ export const TransactionsTable = () => {
 
         const parsed = (res.transactions || []).map(mapApiToTransaction);
         setTransactionsData(parsed);
-
+console.log(parsed);
         setHasMore(parsed.length === limit);
       } catch (error) {
         console.error("Ошибка загрузки транзакций:", error);

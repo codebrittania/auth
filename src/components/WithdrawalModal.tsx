@@ -93,7 +93,6 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
       resetForm();
     } catch (error) {
       console.error("Ошибка при выводе средств:", error);
-      alert("Ошибка при выводе средств. Попробуйте позже.");
     }
   };
 
@@ -109,7 +108,7 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
       return;
     }
 
-    const max = (maxBalance - NETWORK_FEE) / (1 + SERVICE_FEE_PERCENT / 100);
+    const max = maxBalance ;
     const safeMax = Math.floor(max * 100) / 100;
     setWithdrawAmount(safeMax.toFixed(2));
   };
@@ -154,7 +153,7 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
                   type="number"
                   className="w-full outline:none px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   placeholder="0.00"
-                  step="0.00"
+                  step="0.01"
                   min="0.00"
                   value={withdrawAmount}
                   onChange={(e) => {
@@ -177,7 +176,7 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
                 </span>
                 <button
                   type="button"
-                  className="absolute right-2 top-3  bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-1 rounded"
+                  className="absolute right-2 top-3 cursor-pointer bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-1 rounded"
                   onClick={setMaxAmount}
                 >
                   MAX
@@ -231,9 +230,9 @@ export const WithdrawalModal: React.FC<WithdrawalModalProps> = ({
 
             <button
               type="submit"
-              className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
+              className={`w-full py-3  px-4 rounded-lg font-medium transition-colors ${
                 validateForm()
-                  ? "bg-green-500 hover:bg-green-600 text-white"
+                  ? "bg-green-500 hover:bg-green-600 cursor-pointer text-white"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
               disabled={!validateForm()}
