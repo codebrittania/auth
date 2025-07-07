@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { FaCheckCircle, FaClock, FaTimesCircle } from "react-icons/fa";
 import { WithdrawalModal } from "../../../../components/WithdrawalModal";
 import { useMerchantBalance } from "../../../../hooks/useMerchantBalance";
 import { useBalanceStore } from "../../../../stores/BalanceStore";
 import { useStatsBalances } from "../../hooks/useStatsBalances";
+import { useWithdrawalsHistory } from "../../hooks/useWithdrawalsHistory";
 
 export interface StatsBalance {
   wallet_usdt: number;
@@ -12,12 +14,24 @@ export interface StatsBalance {
   hold_usdt: number;
 }
 
+interface WithdrawalHistoryItem {
+  id: number;
+  amount: string;
+  created_at: string;
+  description: string | null;
+  merchant_id: number;
+  status: string;
+  wallet_address: string;
+}
+
 export const DashboardSection = () => {
   const [withdrawalModalOpen, setWithdrawalModalOpen] = useState(false);
+  const [historyModalOpen, setHistoryModalOpen] = useState(false);
 
   const { data: merchantBalance } = useMerchantBalance();
+  const { data: withdrawalsHistory } = useWithdrawalsHistory();
 
-  console.log(merchantBalance?.balance);
+  console.log(withdrawalsHistory);
   const { setBalance } = useBalanceStore();
 
   useEffect(() => {
@@ -54,6 +68,12 @@ export const DashboardSection = () => {
             >
               Withdraw USDT
             </button>
+            <button
+              onClick={() => setHistoryModalOpen(true)}
+              className="px-4 py-2 ml-5 md:ml-2 bg-white/20 cursor-pointer rounded-lg text-sm font-medium"
+            >
+              Withdraw History
+            </button>
           </div>
 
           <div className="mb-6">
@@ -81,8 +101,13 @@ export const DashboardSection = () => {
                 {" "}
                 {merchantBalance?.currency}
               </span>
+              <span className="text-sm ml-2 text-gray-300">
+                {merchantBalance?.pending} pending
+              </span>
             </div>
-            <div className="text-sm text-gray-300">USDT Wallet</div>
+            <div className="text-sm text-gray-300">
+              {merchantBalance?.currency} Wallet
+            </div>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -107,6 +132,85 @@ export const DashboardSection = () => {
         onClose={closeWithdrawalModal}
         maxBalance={MAX_BALANCE}
       />
+
+      {historyModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-9999 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-black">История выводов</h3>
+              <button
+                onClick={() => setHistoryModalOpen(false)}
+                className="text-black cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {withdrawalsHistory?.map((item: WithdrawalHistoryItem) => {
+                const statusInfo = {
+                  completed: {
+                    text: "Завершено",
+                    icon: <FaCheckCircle className="text-green-500 w-4 h-4" />,
+                    color: "text-green-500",
+                  },
+                  rejected: {
+                    text: "Отклонено",
+                    icon: <FaTimesCircle className="text-red-500 w-4 h-4" />,
+                    color: "text-red-500",
+                  },
+                  pending: {
+                    text: "В ожидании",
+                    icon: <FaClock className="text-yellow-500 w-4 h-4" />,
+                    color: "text-yellow-500",
+                  },
+                };
+
+                const currentStatus =
+                  statusInfo[item.status as keyof typeof statusInfo];
+
+                return (
+                  <div
+                    key={item.id}
+                    className="bg-white/5 border border-black/20 p-4 rounded-xl "
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm ">Сумма</span>
+                      <span className="text-sm font-medium ">
+                        {item.amount} USDT
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm ">Дата</span>
+                      <span className="text-sm ">
+                        {new Date(item.created_at).toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm ">Статус</span>
+                      <span
+                        className={`flex items-center gap-1 ${currentStatus.color}`}
+                      >
+                        {currentStatus.icon}
+                        <span className="text-sm">{currentStatus.text}</span>
+                      </span>
+                    </div>
+
+                    <div className="flex flex-row items-center justify-between gap-1 sm:gap-2">
+                      <span className="text-sm  shrink-0">Кошелек</span>
+                      <code className="text-xs max-w-[65%]  break-all font-mono">
+                        {item.wallet_address}
+                      </code>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

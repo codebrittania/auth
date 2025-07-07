@@ -138,6 +138,19 @@ class CryptUraApi {
     );
     return data;
   }
+  async getWithdrawalsHistory(): Promise<any> {
+    const token = localStorage.getItem("token");
+
+    const { data } = await axios.get(
+      "https://cryptura.space/api/merchant/withdrawals-history",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  }
 
   async getStatsBalances(): Promise<StatsBalanceResponse> {
     const token = localStorage.getItem("token");
